@@ -21,7 +21,7 @@ export const GET = async (req: NextRequest): Promise<NextResponse> => {
  * Builds XML sitemap dynamically.
  */
 const generateSitemap = (includeUnlisted: boolean): string => {
-  const base = 'https://next-site-search-test-git-sitemapuseragent-roger-tuan-datocmss-projects.vercel.app'
+  const base = 'https://next-site-search-test-git-s-66b95c-roger-tuan-datocmss-projects.vercel.app'
   const lastmod = '2025-11-10T23:16:52+00:00'
 
   const urls = [
