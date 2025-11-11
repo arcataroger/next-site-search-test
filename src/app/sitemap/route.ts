@@ -28,6 +28,7 @@ const generateSitemap = (includeUnlisted: boolean): string => {
     { loc: `${base}/`, priority: '1.00' },
     { loc: `${base}/apple`, priority: '0.80' },
     { loc: `${base}/orange`, priority: '0.80' },
+    { loc: `${base}/unlisted`, priority: '0.80' },
   ]
 
   if (includeUnlisted) {
