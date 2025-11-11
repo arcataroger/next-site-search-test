@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+export const revalidate = 0;
+export const dynamic = 'force-dynamic';
+
 /**
  * Serves sitemap.xml; includes "unlisted" only for DatoCmsSearchBotCustomSuffix.
+ * Always fresh: disables caching and uses current datetime.
  */
 export const GET = async (req: NextRequest): Promise<NextResponse> => {
   const ua = req.headers.get('user-agent') ?? ''
@@ -12,7 +16,10 @@ export const GET = async (req: NextRequest): Promise<NextResponse> => {
   return new NextResponse(xml, {
     headers: {
       'Content-Type': 'application/xml; charset=utf-8',
-      'Cache-Control': 'public, max-age=3600',
+      // Disable all caching
+      'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+      Pragma: 'no-cache',
+      Expires: '0',
     },
   })
 }
@@ -22,17 +29,16 @@ export const GET = async (req: NextRequest): Promise<NextResponse> => {
  */
 const generateSitemap = (includeUnlisted: boolean): string => {
   const base = 'https://next-site-search-test-git-s-66b95c-roger-tuan-datocmss-projects.vercel.app'
-  const lastmod = '2025-11-10T23:16:52+00:00'
+  const lastmod = new Date().toISOString() // current timestamp
 
   const urls = [
     { loc: `${base}/`, priority: '1.00' },
     { loc: `${base}/apple`, priority: '0.80' },
     { loc: `${base}/orange`, priority: '0.80' },
-    { loc: `${base}/unlisted`, priority: '0.80' },
   ]
 
   if (includeUnlisted) {
-    urls.push({ loc: `${base}/secret`, priority: '0.80' })
+    urls.push({ loc: `${base}/unlisted`, priority: '0.80' })
   }
 
   const urlEntries = urls
